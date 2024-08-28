@@ -109,10 +109,10 @@ void fsa_table_init(table_struc *tableptr, int maxstates, int ne)
   tableptr->maxstates = maxstates;
   tableptr->table_type = DENSE;
   tmalloc(tableptr->table_data_ptr, int *, ne + 1);
-  tmalloc(tableptr->table_data_ptr[0], int, maxstates *ne);
+  tmalloc(tableptr->table_data_ptr[0], int, maxstates *(size_t)ne);
   for (i = 1; i <= ne; i++)
     tableptr->table_data_ptr[i] =
-        tableptr->table_data_ptr[0] + (i - 1) * maxstates - 1;
+        tableptr->table_data_ptr[0] + (i - 1) * (size_t)maxstates - 1;
 }
 
 /* Set the is_initial field in fsa *fsaptr - should be freed after use  */
