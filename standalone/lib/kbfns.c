@@ -735,7 +735,8 @@ void consider(int k, int l, rewriting_system *rwsptr)
  */
 int tidyup(int crelno, rewriting_system *rwsptr)
 {
-  int i, iv, nnum_eqns, lenl, lenr, totlenl, totlenr, maxlenl, maxlenr, ret;
+  int i, iv, nnum_eqns, lenl, lenr, maxlenl, maxlenr, ret;
+  size_t totlenl, totlenr;
   boolean moving, retain, red, some_changed;
   gen **newlhs, **newrhs, *testword1 = rwsptr->testword1,
                           *testword2 = rwsptr->testword2;
@@ -903,7 +904,7 @@ repeat:
   getrusage(RUSAGE_SELF, &tmp);
   i = tmp.ru_utime.tv_sec;
   if (kbm_print_level >= 2)
-    printf("  #%d eqns; total len: lhs, rhs = %d, %d; %d states; %d secs.\n",
+    printf("  #%d eqns; total len: lhs, rhs = %zd, %zd; %d states; %d secs.\n",
            rwsptr->num_eqns, totlenl, totlenr, rwsptr->num_states, i);
   if (kbm_print_level >= 3)
     printf("            max len: lhs, rhs = %d, %d.\n", maxlenl, maxlenr);
