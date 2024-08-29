@@ -364,11 +364,11 @@ void table_copy(table_struc *tableptr1, table_struc *tableptr2, int ne, int ns)
 
   if (tableptr1->table_type == DENSE) {
     tmalloc(tableptr1->table_data_ptr, int *, ne + 1);
-    tmalloc(tableptr1->table_data_ptr[0], int, ne *maxstates);
+    tmalloc(tableptr1->table_data_ptr[0], int, ne *(size_t)maxstates);
     for (i = 1; i <= ne; i++) {
       row2 = tableptr2->table_data_ptr[i];
       row1 = tableptr1->table_data_ptr[i] =
-          tableptr1->table_data_ptr[0] + (i - 1) * maxstates - 1;
+          tableptr1->table_data_ptr[0] + (i - 1) * (size_t)maxstates - 1;
       for (j = 1; j <= ns; j++)
         row1[j] = row2[j];
     }
@@ -380,7 +380,7 @@ void table_copy(table_struc *tableptr1, table_struc *tableptr2, int ne, int ns)
       for (i = 1; i <= dr; i++) {
         row2 = tableptr2->table_data_ptr[i];
         row1 = tableptr1->table_data_ptr[i] =
-            tableptr1->table_data_ptr[0] + (i - 1) * ne - 1;
+            tableptr1->table_data_ptr[0] + (i - 1) * (size_t)ne - 1;
         for (j = 1; j <= ne; j++)
           row1[j] = row2[j];
       }
