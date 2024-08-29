@@ -25,6 +25,8 @@
 #define MAXWDIFFS 512
 #define MAXSLOWHISTORYSPACE 131072
 #define CONFNUM 500
+/* keep tidy int at least as big as equation count over this integer */
+#define TIDY_FRAC 10
 #define Ggen(x) (x < rwsptr->separator)
 #define Hgen(x) (x > rwsptr->separator)
 
@@ -905,7 +907,10 @@ repeat:
            rwsptr->num_eqns, totlenl, totlenr, rwsptr->num_states, i);
   if (kbm_print_level >= 3)
     printf("            max len: lhs, rhs = %d, %d.\n", maxlenl, maxlenr);
-
+  /* given the remaining count of equations, if the tidyint is too small,
+     increase it, to avoid quadratic complexity in the count of equations. */
+  if (rwsptr->num_eqns / TIDY_FRAC > rwsptr->tidyint)
+    rwsptr->tidyint = rwsptr->num_eqns / TIDY_FRAC ;
   return ret;
 }
 
