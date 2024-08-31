@@ -915,6 +915,8 @@ repeat:
            rwsptr->num_eqns, totlenl, totlenr, rwsptr->num_states, i);
   if (kbm_print_level >= 3)
     printf("            max len: lhs, rhs = %d, %d.\n", maxlenl, maxlenr);
+  if (kbm_print_level >= 2)
+    fflush(stdout);
   /* given the remaining count of equations, if the tidyint is too small,
      increase it, to avoid quadratic complexity in the count of equations. */
   if (rwsptr->num_eqns / TIDY_FRAC > rwsptr->tidyint)
