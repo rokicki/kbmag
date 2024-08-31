@@ -735,6 +735,10 @@ void consider(int k, int l, rewriting_system *rwsptr)
  */
 int tidyup(int crelno, rewriting_system *rwsptr)
 {
+  if (kbm_print_level >= 2) {
+    printf(" #tidy;");
+    fflush(stdout);
+  }
   int i, iv, nnum_eqns, lenl, lenr, maxlenl, maxlenr, ret;
   size_t totlenl, totlenr;
   boolean moving, retain, red, some_changed;
@@ -767,6 +771,7 @@ repeat:
       retain = TRUE;
       if (reduce_word(testword2, &rs_rws) == -1) {
         rwsptr->exit_status = 1;
+        printf("\n");
         return -1;
       }
       if (genstrlen(testword2) > rwsptr->maxreducelen / 2)
@@ -781,10 +786,12 @@ repeat:
       /* LHS can be reduced using other equations */
       if (reduce_word(testword1, &rs_rws) == -1) {
         rwsptr->exit_status = 1;
+        printf("\n");
         return -1;
       }
       if (reduce_word(testword2, &rs_rws) == -1) {
         rwsptr->exit_status = 1;
+        printf("\n");
         return -1;
       }
       if (genstrlen(testword1) > rwsptr->maxreducelen / 2 ||
@@ -904,7 +911,7 @@ repeat:
   getrusage(RUSAGE_SELF, &tmp);
   i = tmp.ru_utime.tv_sec;
   if (kbm_print_level >= 2)
-    printf("  #%d eqns; total len: lhs, rhs = %zd, %zd; %d states; %d secs.\n",
+    printf(" %d eqns; total len: lhs, rhs = %zd, %zd; %d states; %d secs.\n",
            rwsptr->num_eqns, totlenl, totlenr, rwsptr->num_states, i);
   if (kbm_print_level >= 3)
     printf("            max len: lhs, rhs = %d, %d.\n", maxlenl, maxlenr);
